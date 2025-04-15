@@ -1,20 +1,10 @@
 
-// API configuration
-const API_ENDPOINT = "https://api.hashtaggenerator.app/v1/generate";
-
 interface HashtagCategory {
   name: string;
   tags: string[];
 }
 
-interface GenerateResponse {
-  hashtags: string[];
-  trending: string[];
-  niche: string[];
-  error?: string;
-}
-
-// Sample hashtag pool organized by categories (for fallback)
+// Sample hashtag pool organized by categories
 const hashtagPool: HashtagCategory[] = [
   {
     name: "Popular",
@@ -46,75 +36,16 @@ const hashtagPool: HashtagCategory[] = [
   }
 ];
 
-// Helper function to get random items from an array (for fallback)
+// Helper function to get random items from an array
 function getRandomItems<T>(array: T[], count: number): T[] {
   const shuffled = [...array].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 }
 
-// Generate hashtags using an API key if provided, otherwise fall back to local generation
-export async function generateHashtags(topic: string, apiKey?: string, count: number = 30): Promise<string[]> {
+// Generate hashtags related to a topic
+export function generateHashtags(topic: string, count: number = 30): string[] {
   if (!topic) return [];
   
-  // If API key is provided, use external API
-  if (apiKey && apiKey.trim()) {
-    try {
-      console.log(`Generating hashtags via API for topic: ${topic}`);
-      
-      // Call to the external API
-      const response = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-          'X-API-Version': '1.0'
-        },
-        body: JSON.stringify({
-          topic,
-          count,
-          include_trending: true,
-          language: 'en'
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `API error: ${response.status}`);
-      }
-      
-      const data: GenerateResponse = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
-      // Combine all hashtags from the API response
-      let allTags = [...data.hashtags];
-      
-      // Add trending and niche tags if available
-      if (data.trending) allTags = [...allTags, ...data.trending];
-      if (data.niche) allTags = [...allTags, ...data.niche];
-      
-      // Format the hashtags with # if they don't already have it
-      const formattedHashtags = allTags.map(tag => 
-        tag.startsWith('#') ? tag : `#${tag}`
-      );
-      
-      // Remove duplicates and limit to requested count
-      return [...new Set(formattedHashtags)].slice(0, count);
-    } catch (error) {
-      console.error('Error fetching hashtags from API:', error);
-      // Fall back to local generation if API call fails
-      return generateLocalHashtags(topic, count);
-    }
-  }
-  
-  // If no API key, use local generation
-  return generateLocalHashtags(topic, count);
-}
-
-// Local generation logic (fallback implementation)
-function generateLocalHashtags(topic: string, count: number = 30): string[] {
   const topicLower = topic.toLowerCase().trim();
   const words = topicLower.split(/\s+/);
   
