@@ -1,7 +1,14 @@
 
 import React, { useState, useRef } from 'react';
-import { Search, Key } from 'lucide-react';
+import { Search, Key, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface HashtagFormProps {
   onGenerate: (topic: string, apiKey?: string) => void;
@@ -29,7 +36,7 @@ const HashtagForm: React.FC<HashtagFormProps> = ({ onGenerate, isLoading }) => {
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
-          <input
+          <Input
             ref={inputRef}
             type="text"
             value={topic}
@@ -41,25 +48,41 @@ const HashtagForm: React.FC<HashtagFormProps> = ({ onGenerate, isLoading }) => {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
         </div>
         
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <button
             type="button"
-            className="text-sm text-primary flex items-center gap-1"
+            className="text-sm text-primary flex items-center gap-1 hover:underline"
             onClick={() => setShowApiKey(!showApiKey)}
           >
             <Key size={16} />
             {showApiKey ? 'Hide API Key' : 'Use API Key'}
           </button>
+          
+          {showApiKey && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info size={16} className="text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs text-xs">
+                    Using an API key provides more accurate, trendy, and niche hashtags. 
+                    Sign up at hashtaggenerator.app to get your API key.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
         
         {showApiKey && (
           <div className="relative">
-            <input
+            <Input
               type="password"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder="Enter your API key (optional)"
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+              placeholder="Enter your API key"
+              className="w-full px-4 py-3 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
               disabled={isLoading}
             />
             <Key className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -81,10 +104,17 @@ const HashtagForm: React.FC<HashtagFormProps> = ({ onGenerate, isLoading }) => {
       <div className="mt-6 text-sm text-muted-foreground">
         <p>Examples: photography, digital marketing, vegan cooking, travel europe</p>
         {showApiKey && (
-          <p className="mt-2 text-xs text-muted-foreground">
-            Using an API key will provide more accurate and trending hashtags.
-            {!apiKey && " No API key provided - will use local generation."}
-          </p>
+          <div className="mt-2 rounded-md p-2 bg-muted/30">
+            {!apiKey.trim() ? (
+              <p className="text-xs text-muted-foreground">
+                No API key provided - will use local generation with limited features.
+              </p>
+            ) : (
+              <p className="text-xs text-primary">
+                Using API key for enhanced hashtag generation with trending and niche tags.
+              </p>
+            )}
+          </div>
         )}
       </div>
     </div>
