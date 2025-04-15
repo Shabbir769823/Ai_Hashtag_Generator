@@ -4,7 +4,7 @@ interface HashtagCategory {
   tags: string[];
 }
 
-// Sample hashtag pool organized by categories
+// Sample hashtag pool organized by categories (for fallback)
 const hashtagPool: HashtagCategory[] = [
   {
     name: "Popular",
@@ -36,16 +36,57 @@ const hashtagPool: HashtagCategory[] = [
   }
 ];
 
-// Helper function to get random items from an array
+// Helper function to get random items from an array (for fallback)
 function getRandomItems<T>(array: T[], count: number): T[] {
   const shuffled = [...array].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 }
 
-// Generate hashtags related to a topic
-export function generateHashtags(topic: string, count: number = 30): string[] {
+// Generate hashtags using an API key if provided, otherwise fall back to local generation
+export async function generateHashtags(topic: string, apiKey?: string, count: number = 30): Promise<string[]> {
   if (!topic) return [];
   
+  // If API key is provided, use external API
+  if (apiKey && apiKey.trim()) {
+    try {
+      // Call to the external API
+      const response = await fetch('https://api.hashtaggenerator.example/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          topic,
+          count
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Format the hashtags with # if they don't already have it
+      const formattedHashtags = data.hashtags.map((tag: string) => 
+        tag.startsWith('#') ? tag : `#${tag}`
+      );
+      
+      return formattedHashtags;
+    } catch (error) {
+      console.error('Error fetching hashtags from API:', error);
+      // Fall back to local generation if API call fails
+      return generateLocalHashtags(topic, count);
+    }
+  }
+  
+  // If no API key, use local generation
+  return generateLocalHashtags(topic, count);
+}
+
+// Local generation logic (former implementation)
+function generateLocalHashtags(topic: string, count: number = 30): string[] {
   const topicLower = topic.toLowerCase().trim();
   const words = topicLower.split(/\s+/);
   

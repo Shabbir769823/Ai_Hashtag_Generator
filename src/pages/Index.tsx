@@ -5,23 +5,44 @@ import HashtagForm from '@/components/HashtagForm';
 import HashtagResults from '@/components/HashtagResults';
 import Footer from '@/components/Footer';
 import { generateHashtags } from '@/utils/hashtagGenerator';
+import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [topic, setTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  const handleGenerateHashtags = (inputTopic: string) => {
+  const handleGenerateHashtags = async (inputTopic: string, apiKey?: string) => {
     setIsLoading(true);
     setTopic(inputTopic);
     
-    // Simulate API call with a slight delay
-    setTimeout(() => {
-      const generatedHashtags = generateHashtags(inputTopic);
+    try {
+      // Call the generateHashtags function with optional API key
+      const generatedHashtags = await generateHashtags(inputTopic, apiKey);
       setHashtags(generatedHashtags);
+      
+      if (apiKey) {
+        toast({
+          title: "Using API",
+          description: "Hashtags generated using the provided API key",
+        });
+      } else {
+        toast({
+          description: "Using built-in hashtag generator (no API key)",
+        });
+      }
+    } catch (error) {
+      console.error('Error generating hashtags:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate hashtags. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   const scrollToForm = () => {
