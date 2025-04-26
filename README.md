@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# 🚀 Hashtag Generator
 
-## Project info
+![Hashtag Generator Demo](https://github.com/user-attachments/assets/f1611991-ea85-42ef-934a-62915dcd1e3f)
 
-**URL**: https://lovable.dev/projects/ab44a0b7-e89e-42f6-b2a3-f9e6cad19bbd
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.0-blue?logo=tailwindcss)
+![Vite](https://img.shields.io/badge/Vite-4.0-purple?logo=vite)
+![Hugging Face](https://img.shields.io/badge/HuggingFace-API-yellow?logo=huggingface)
+![Vercel](https://img.shields.io/badge/Hosted%20on-Vercel-black?logo=vercel)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Description
 
-**Use Lovable**
+**Hashtag Generator** is an AI-powered tool that helps content creators find relevant and trending hashtags instantly.  
+Built using modern tools like **React 18**, **TypeScript**, and **Hugging Face API**, it delivers accurate results with a beautiful UI.  
+Ideal for content creators, influencers, and digital marketers.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ab44a0b7-e89e-42f6-b2a3-f9e6cad19bbd) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🌐 Live Demo
 
-**Use your preferred IDE**
+🔗 [Live Website (Vercel Hosted)](https://aihashtaggenerator.vercel.app/)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🧠 Features
 
-Follow these steps:
+- ✅ AI-generated hashtag suggestions
+- ✅ Copy individual or all hashtags
+- ✅ Real-time validation with toast alerts
+- ✅ Responsive & mobile-first UI
+- ✅ Instant hosting with Vercel
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🧰 Tech Stack
 
-# Step 3: Install the necessary dependencies.
-npm i
+- **Frontend:** React 18 + TypeScript + Vite  
+- **Styling:** Tailwind CSS + shadcn/ui  
+- **Routing:** React Router  
+- **State Management:** React Query  
+- **AI Service:** Hugging Face Transformers API  
+- **Hosting:** Vercel
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+---
+
+## 🗂️ Folder Structure
+
+![Folder Structure](https://github.com/user-attachments/assets/ad1a2576-6964-441f-9c84-26363cc97199)
+
+---
+
+## 🤖 Hugging Face AI Integration
+
+We use the Hugging Face API to analyze text and generate hashtags.
+
+> ⚠️ **Important:** Keep your API key secure using `.env` files.
+
+Example `.env` file:
+```bash
+VITE_HUGGINGFACE_API_KEY=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
 ```
 
-**Edit a file directly in GitHub**
+## 🙌 Contributions
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Contributions are welcome!
 
-**Use GitHub Codespaces**
+Fork the repository
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Create a feature branch: git checkout -b feature/your-feature
 
-## What technologies are used for this project?
+Commit your changes
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ab44a0b7-e89e-42f6-b2a3-f9e6cad19bbd) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Push and open a Pull Request
