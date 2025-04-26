@@ -21,7 +21,7 @@ Ideal for content creators, influencers, and digital marketers.
 
 ## 🌐 Live Demo
 
-🔗 [Live Website (Vercel Hosted)](https://aihashtaggenerator.vercel.app/)
+🔗 (https://aihashtaggenerator.vercel.app/)
 
 ---
 
